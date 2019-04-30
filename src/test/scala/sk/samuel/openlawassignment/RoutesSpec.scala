@@ -31,7 +31,7 @@ class RoutesSpec extends WordSpec with Matchers with ScalatestRouteTest with Rou
       }
     }
 
-    "handle whitespace-only files" ignore { //todo skip until implemented
+    "handle whitespace-only files" in {
       postParseRequest(" \t \n \r ") ~> check {
         status shouldEqual StatusCodes.OK
 
@@ -41,7 +41,7 @@ class RoutesSpec extends WordSpec with Matchers with ScalatestRouteTest with Rou
       }
     }
 
-    "handle multiple lines" ignore { //todo skip until implemented
+    "handle multiple lines" in {
       postParseRequest("one two three\ntwo three\nthree") ~> check {
         status shouldEqual StatusCodes.OK
 

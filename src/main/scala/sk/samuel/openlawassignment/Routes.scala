@@ -5,7 +5,7 @@ import akka.http.scaladsl.server.Directives._
 import akka.http.scaladsl.server.Route
 import akka.http.scaladsl.server.directives.PathDirectives.path
 import akka.stream.Materializer
-import akka.stream.scaladsl.{Framing, Source}
+import akka.stream.scaladsl.Source
 import akka.util.ByteString
 import com.typesafe.scalalogging.StrictLogging
 
@@ -22,9 +22,10 @@ trait Routes extends JsonSupport with StrictLogging {
 
         (withSizeLimit(10 * 1024 * 1024 /* 10MB */) & fileUpload("words")) {
           case (metadata, byteSource) =>
-            //todo - better whitespace delimiter
-            def words: Source[String, Any] = byteSource.via(Framing.delimiter(ByteString(" "), 1024, allowTruncation = true))
+
+            def words: Source[String, Any] = byteSource
               .map(_.utf8String)
+              .via(new WhitespaceFraming)
 
             val wordCounts = mutable.HashMap.empty[String, Int]
 
