@@ -10,9 +10,9 @@ import com.typesafe.scalalogging.StrictLogging
 object RouteUtils extends StrictLogging {
 
   /**
-    * Only logs which request failed (method and uri) and completes with InternalServerError.
-    * This ExceptionHandler should be used to help linking client errors with logs when troubleshooting.
-    */
+   * Only logs which request failed (method and uri) and completes with InternalServerError.
+   * This ExceptionHandler should be used to help linking client errors with logs when troubleshooting.
+   */
   lazy val rootExceptionHandler = ExceptionHandler {
     case e =>
       (extractMethod & extractUri) { (method, uri) =>
